@@ -61,7 +61,7 @@ jobs:
 
     - name: Before install
       run: |
-        curl -L https://github.com/gohugoio/hugo/releases/download/$HUGO_VERSION/HUGO_PACKAGE.tar.gz | tar xz
+        curl -L https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION/$HUGO_PACKAGE.tar.gz | tar xz
         chmod +x ./hugo
         mv ./hugo ./bin/hugo
       
