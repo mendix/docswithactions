@@ -48,6 +48,9 @@ jobs:
         echo $CF_CLI_VERSION
         echo $HUGO_VERSION
         echo $HUGO_PACKAGE
+        echo $HOME
+        echo $GITHUB_WORKSPACE
+
           
     - uses: actions/checkout@v2
       
@@ -70,7 +73,6 @@ jobs:
   
     - name: Before Deploying
       run: |
-        echo "$HOME" >> $GITHUB_PATH
         curl -L -o $HOME/cf.tgz "https://cli.run.pivotal.io/stable?release=linux64-binary&version=$CF_CLI_VERSION"
         tar xzvf $HOME/cf.tgz -C $HOME
         chmod +x $HOME/cf
