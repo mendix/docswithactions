@@ -15,7 +15,7 @@ on:
 env:
     GET_ENV_VAR: ./_scripts/get_env.sh
     GOPATH: "$HOME/.go_workspace"
-    HUGO_ENV: $GET_ENV_VAR
+    HUGO_ENV: test
     CF_APP: docs
     CF_API: https://api.run.pivotal.io
     CF_USERNAME: jelte.lagendijk@mendix.com
