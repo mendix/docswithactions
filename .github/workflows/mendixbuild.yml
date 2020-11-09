@@ -66,4 +66,8 @@ jobs:
         mkdir -p $GITHUB_WORKSPACE/bin/hugo
         mv ./hugo $GITHUB_WORKSPACE/bin/hugo
       
-      
+    - name: install
+      run: |
+        rm -rf _site
+        yarn install
+  
