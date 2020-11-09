@@ -77,6 +77,7 @@ jobs:
         curl -L -o $HOME/cf.tgz "https://cli.run.pivotal.io/stable?release=linux64-binary&version=$CF_CLI_VERSION"
         tar xzvf $HOME/cf.tgz -C $HOME
         chmod +x $HOME/cf
+        mkdir -p $HOME/bin/cf
         mv $HOME/cf $HOME/bin/cf
         cp ./_scripts/autopilot-linux $HOME/
         chmod a+x $HOME/autopilot-linux
