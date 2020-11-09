@@ -1,0 +1,88 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Build Mendix Documentation
+
+on:
+  push:
+    branches: 
+      - development
+
+env:
+    TRAVIS_BRANCH: development
+    TRAVIS_PULL_REQUEST: false
+    HUGO_ENV: test
+    GOPATH: "$HOME/.go_workspace"
+    CF_APP: docs
+    CF_API: https://api.run.pivotal.io
+    CF_USERNAME: jelte.lagendijk@mendix.com
+    CF_ORGANIZATION: mendix-rnd.com
+    CF_SPACE: docs
+    CF_CLI_VERSION: 6.22.2
+    HUGO_VERSION: 0.31.1
+    HUGO_PACKAGE: hugo_0.31.1_Linux-64bit
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - name: Check environment variables
+      run: |
+        echo "environment variables"
+        echo $TRAVIS_BRANCH
+        echo $TRAVIS_PULL_REQUEST
+        echo $HUGO_ENV
+        echo $GOPATH
+        echo $CF_APP
+        echo $CF_API
+        echo $CF_USERNAME
+        echo $CF_ORGANIZATION
+        echo $CF_SPACE
+        echo $CF_CLI_VERSION
+        echo $HUGO_VERSION
+        echo $HUGO_PACKAGE
+          
+    - uses: actions/checkout@v2
+      
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Before install
+      run: |
+        curl -L https://github.com/gohugoio/hugo/releases/download/v0.31.1/hugo_0.31.1_Linux-64bit.tar.gz | tar xz
+        chmod +x ./hugo
+        mkdir -p $GITHUB_WORKSPACE/bin/hugo
+        mv ./hugo $GITHUB_WORKSPACE/bin/hugo
+      
+    - name: install
+      run: |
+        rm -rf _site
+        yarn install
+  
+    - name: Before Deploying
+      run: |
+        echo "$HOME" >> $GITHUB_PATH
+        curl -L -o $HOME/cf.tgz "https://cli.run.pivotal.io/stable?release=linux64-binary&version=$CF_CLI_VERSION"
+        tar xzvf $HOME/cf.tgz -C $HOME
+        chmod +x $HOME/cf
+        mkdir -p $HOME/bin/cf
+        mv $HOME/cf $HOME/bin/cf
+        cp ./_scripts/autopilot-linux $HOME/
+        chmod a+x $HOME/autopilot-linux
+        ./_scripts/before_deploy.sh
+        
+    - name: Gulp Build
+      run: ./node_modules/.bin/gulp build
+
+    - name: Deploy
+      run: echo "Deploying for development or master"
+      if: github.ref == 'ref/head/development' || github.ref == 'ref/head/master'
