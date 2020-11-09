@@ -61,9 +61,6 @@ jobs:
 
     - name: Before install
       run: |
-        echo "$HOME" >> $GITHUB_PATH
-        echo "HUGO_PACKAGE=hugo_${HUGO_VERSION}_Linux-64bit" >> $GITHUB_ENV
-        echo $HUGO_PACKAGE
         curl -L https://github.com/gohugoio/hugo/releases/download/$HUGO_VERSION/HUGO_PACKAGE.tar.gz | tar xz
         chmod +x ./hugo
         mv ./hugo ./bin/hugo
