@@ -50,7 +50,6 @@ jobs:
         echo $HUGO_VERSION
         echo $HUGO_PACKAGE
         echo "curl -L https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION/$HUGO_PACKAGE.tar.gz | tar xz"
-        echo "Test ${{HUGO_VERSION}} One"
         echo "Test ${{$HUGO_VERSION}} Two"
           
     - uses: actions/checkout@v2
