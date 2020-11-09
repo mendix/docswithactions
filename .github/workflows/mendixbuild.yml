@@ -23,7 +23,7 @@ env:
     CF_SPACE: docs
     CF_CLI_VERSION: 6.22.2
     HUGO_VERSION: 0.31.1
-    HUGO_PACKAGE: hugo_$HUGO_VERSION_Linux-64bit
+    HUGO_PACKAGE: hugo_0.31.1_Linux-64bit
 
 jobs:
   build:
@@ -50,7 +50,7 @@ jobs:
         echo $HUGO_VERSION
         echo $HUGO_PACKAGE
         echo "curl -L https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION/$HUGO_PACKAGE.tar.gz | tar xz"
-        echo "Test ${{$HUGO_VERSION}} Two"
+
           
     - uses: actions/checkout@v2
       
@@ -64,7 +64,7 @@ jobs:
         echo "$HOME" >> $GITHUB_PATH
         echo "HUGO_PACKAGE=hugo_${HUGO_VERSION}_Linux-64bit" >> $GITHUB_ENV
         echo $HUGO_PACKAGE
-        curl -L https://github.com/gohugoio/hugo/releases/download/v0.31.1/hugo_0.31.1_Linux-64bit.tar.gz | tar xz
+        curl -L https://github.com/gohugoio/hugo/releases/download/$HUGO_VERSION/HUGO_PACKAGE.tar.gz | tar xz
         chmod +x ./hugo
         mv ./hugo ./bin/hugo
       
