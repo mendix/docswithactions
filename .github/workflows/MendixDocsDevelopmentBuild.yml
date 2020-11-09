@@ -72,6 +72,9 @@ jobs:
         rm -rf _site
         yarn install
   
+    - name: Gulp Build
+      run: ./node_modules/.bin/gulp build
+
     - name: Before Deploying
       run: |
         echo $PATH
@@ -87,9 +90,6 @@ jobs:
         echo $GITHUB_PATH
         ./_scripts/before_deploy.sh
         
-    - name: Gulp Build
-      run: ./node_modules/.bin/gulp build
-
     - name: Deploy
       run: echo "Deploying for development or master"
       if: github.ref == 'ref/head/development' || github.ref == 'ref/head/master'
