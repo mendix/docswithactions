@@ -82,6 +82,9 @@ jobs:
         mv $HOME/cf $HOME/bin/cf
         cp ./_scripts/autopilot-linux $HOME/
         chmod a+x $HOME/autopilot-linux
+        echo "$HOME/bin/cf" >> $GITHUB_PATH
+        echo $PATH
+        echo $GITHUB_PATH
         ./_scripts/before_deploy.sh
         
     - name: Gulp Build
