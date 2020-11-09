@@ -37,16 +37,16 @@ jobs:
     - name: Check environment variables
       run: |
         echo "environment variables"
-        echo GET_ENV_VAR
-        echo GOPATH
-        echo HUGO_ENV
-        echo CF_APP
-        echo CF_API
-        echo CF_USERNAME
-        echo CF_ORGANIZATION
-        echo CF_SPACE
-        echo CF_CLI_VERSION
-        echo HUGO_VERSION
+        echo $GET_ENV_VAR
+        echo $GOPATH
+        echo $HUGO_ENV
+        echo $CF_APP
+        echo $CF_API
+        echo $CF_USERNAME
+        echo $CF_ORGANIZATION
+        echo $CF_SPACE
+        echo $CF_CLI_VERSION
+        echo $HUGO_VERSION
           
     - uses: actions/checkout@v2
       
