@@ -34,12 +34,22 @@ jobs:
         node-version: [14.x]
 
     steps:
+    - name: Start Steps
+      run: echo "Starting Steps"
+          
     - uses: actions/checkout@v2
       
-    - name: Hello World
-      run: echo "Hello World
-
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+
+    - name: Before install
+      run: |
+        echo "$HOME" >> $GITHUB_PATH
+        echo "HUGO_PACKAGE=hugo_${HUGO_VERSION}_Linux-64bit" >> $GITHUB_ENV
+        curl -L https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION/$HUGO_PACKAGE.tar.gz | tar xz
+        chmod +x ./hugo
+        mv ./hugo $HOME/bin/hugo
+      
+      
