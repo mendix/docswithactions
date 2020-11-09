@@ -24,6 +24,8 @@ env:
     CF_CLI_VERSION: 6.22.2
     HUGO_VERSION: 0.31.1
     HUGO_PACKAGE: hugo_0.31.1_Linux-64bit
+    TRAVIS_BRANCH: ${GITHUB_REF#refs/*/}
+    TRAVIS_PULL_REQUEST: ${GITHUB_EVENT_NAME == "pull request"}
 
 jobs:
   build:
@@ -49,6 +51,10 @@ jobs:
         echo $CF_CLI_VERSION
         echo $HUGO_VERSION
         echo $HUGO_PACKAGE
+        echo $GITHUB_REF
+        echo $TRAVIS_BRANCH
+        echo $GITHIB_EVENT_NAME
+        echo $TRAVIS_PULL_REQUEST
         echo "curl -L https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION/$HUGO_PACKAGE.tar.gz | tar xz"
 
           
