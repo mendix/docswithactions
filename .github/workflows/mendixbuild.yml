@@ -35,48 +35,7 @@ jobs:
 
     steps:
 
-    - name: Set up Node.js
-      uses: actions/checkout@v2
+    - name: Hello World
+      run: echo "Hello World"
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    
-    - name: Before install
-      run: |
-        echo "$HOME" >> $GITHUB_PATH
-        echo "HUGO_PACKAGE=hugo_${HUGO_VERSION}_Linux-64bit" >> $GITHUB_ENV
-        curl -L https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION/$HUGO_PACKAGE.tar.gz | tar xz
-        chmod +x ./hugo
-        mv ./hugo $HOME/bin/hugo
-
-    - name: install
-    - run: |
-        rm -rf _site
-        yarn install
-
-    - name: Before Deploying
-      run: |
-        echo "$HOME" >> $GITHUB_PATH
-        curl -L -o $HOME/cf.tgz "https://cli.run.pivotal.io/stable?release=linux64-binary&version=$CF_CLI_VERSION"
-        tar xzvf $HOME/cf.tgz -C $HOME
-        chmod +x $HOME/cf
-        mv $HOME/cf $HOME/bin/cf
-        cp ./_scripts/autopilot-linux $HOME/
-        chmod a+x $HOME/autopilot-linux
-        ./_scripts/before_deploy.sh
-
-    - name: Gulp Build
-      run: ./node_modules/.bin/gulp build
-
-    - name: Deploy
-      run: echo "Deploying for development or master"
-      if: github.ref == 'ref/head/development' || github.ref == 'ref/head/master'
-
-
-# Original examples
-#    - run: npm ci
-#    - run: npm run build --if-present
-#    - run: npm test
 
