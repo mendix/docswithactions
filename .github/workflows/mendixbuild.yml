@@ -65,6 +65,7 @@ jobs:
         ls $GITHUB_WORKSPACE
         curl -L https://github.com/gohugoio/hugo/releases/download/v0.31.1/hugo_0.31.1_Linux-64bit.tar.gz | tar xz
         chmod +x ./hugo
+        mkdir $GITHUB_WORKSPACE/bin
         mkdir $GITHUB_WORKSPACE/bin/hugo
         mv ./hugo $GITHUB_WORKSPACE/bin/hugo
       
