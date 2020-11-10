@@ -2,14 +2,14 @@ name: Diegos Build
 
 on:
   push:
-    branches: [ master, development ]
+    branches: [ githubactions ]
 
 jobs:
-  test:
-    name: "Automated tests"
+  build:
+    name: "Build"
     runs-on: ubuntu-latest
     env:
-      BROWSER: firefox
+      BRANCH: ${{ github.event.pull_request.base.ref }}
       GET_ENV_VAR: ./_scripts/get_env.sh
       GOPATH: "${HOME}/.go_workspace"
       HUGO_ENV: $($GET_ENV_VAR)
@@ -20,6 +20,8 @@ jobs:
       CF_SPACE: docs
       CF_CLI_VERSION: 6.22.2
       HUGO_VERSION: 0.31.1
+      CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+      ALGOLIA_WRITE_KEY: ${{ secrets.ALGOLIA_WRITE_KEY }}
 
     steps:
       - name: "Checking-out code"
@@ -29,7 +31,7 @@ jobs:
           fetch-depth: 20000 # We're cloning a max of xxx commits, so the author date is correct
       - name: "Retrieving Hugo"
         run: |
-          curl -L https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION/$HUGO_PACKAGE.tar.gz | tar xz
+          curl -L "https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}/${{ env.HUGO_PACKAGE }}.tar.gz" | tar xz
           chmod +x ./hugo
           mv ./hugo $HOME/bin/hugo
       - name: "Defining cache"
@@ -53,7 +55,7 @@ jobs:
       - name: "Pre Deploying"
         run: |
           export PATH=$HOME:$PATH
-          curl -L -o $HOME/cf.tgz "https://cli.run.pivotal.io/stable?release=linux64-binary&version=$CF_CLI_VERSION"
+          curl -L -o $HOME/cf.tgz "https://cli.run.pivotal.io/stable?release=linux64-binary&version=${{ env.CF_CLI_VERSION }}"
           tar xzvf $HOME/cf.tgz -C $HOME
           chmod +x $HOME/cf
           mv $HOME/cf $HOME/bin/cf
@@ -63,4 +65,6 @@ jobs:
       - name: "Deploying"
         run: ./_scripts/deploy.sh
       - name: "Executing Algolia"
-        run: ./_scripts/algolia.sh
+        run: |
+          export COMMIT_MESSAGE=$(git log --format=%B -n 1 ${{ github.event.after }})
+          ./_scripts/algolia.sh
