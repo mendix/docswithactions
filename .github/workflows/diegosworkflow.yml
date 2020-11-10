@@ -20,7 +20,6 @@ jobs:
       CF_SPACE: docs
       CF_CLI_VERSION: 6.22.2
       HUGO_VERSION: 0.31.1
-      HUGO_PACKAGE: hugo_${{ env.HUGO_VERSION }}_Linux-64bit
       CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
       ALGOLIA_WRITE_KEY: ${{ secrets.ALGOLIA_WRITE_KEY }}
 
@@ -32,7 +31,7 @@ jobs:
           fetch-depth: 20000 # We're cloning a max of xxx commits, so the author date is correct
       - name: "Retrieving Hugo"
         run: |
-          curl -L "https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}/${{ env.HUGO_PACKAGE }}.tar.gz" | tar xz
+          curl -L "https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}/hugo_${{ env.HUGO_VERSION }}_Linux-64bit.tar.gz" | tar xz
           chmod +x ./hugo
           mv ./hugo $HOME/bin/hugo
       - name: "Defining cache"
