@@ -20,6 +20,7 @@ jobs:
       CF_SPACE: docs
       CF_CLI_VERSION: 6.22.2
       HUGO_VERSION: 0.31.1
+      HUGO_PACKAGE: hugo_${{ env.HUGO_VERSION }}_Linux-64bit
       CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
       ALGOLIA_WRITE_KEY: ${{ secrets.ALGOLIA_WRITE_KEY }}
 
